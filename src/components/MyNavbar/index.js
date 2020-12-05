@@ -44,9 +44,6 @@ const MyNavbar = (props) => {
                 Search
               </Link>
             </NavItem>
-            <NavItem>
-              <i class="fas fa-plus-circle"></i>
-            </NavItem>
           </Nav>
           {
             user
