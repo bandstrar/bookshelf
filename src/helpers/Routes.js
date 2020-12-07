@@ -9,12 +9,13 @@ import BookDetails from '../views/BookDetails';
 import Search from '../views/Search';
 import AdvancedSearch from '../views/AdvancedSearch';
 
-const Routes = () => (
+export default function Routes({ user }) {
+  return (
         <Switch>
             <Route
             exact
             path='/'
-            component={() => <Home />}
+            component={() => <Home user={user} />}
             />
             <Route
             exact
@@ -48,6 +49,5 @@ const Routes = () => (
             />
             <Route component={NotFound} />
         </Switch>
-);
-
-export default Routes;
+  );
+}
