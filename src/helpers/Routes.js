@@ -20,7 +20,7 @@ export default function Routes({ user }) {
             <Route
             exact
             path='/shelves'
-            component={() => <Shelves />}
+            component={() => <Shelves user={user} />}
             />
             <Route
             exact
