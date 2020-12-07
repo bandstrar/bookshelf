@@ -1,0 +1,14 @@
+{
+  "premade1":{
+    "firebaseKey":"premade1",
+    "name":"Unread",
+    "image":"https://i.imgur.com/u2vvtJk.jpg",
+    "userId":"THk2f6wCtzMIFIWxzLcown0LdSG2"
+  },
+  "premade2":{
+    "firebaseKey":"premade2",
+    "name":"Favorites",
+    "image":"https://i.imgur.com/u2vvtJk.jpg",
+    "userId":"THk2f6wCtzMIFIWxzLcown0LdSG2"
+  }
+}
