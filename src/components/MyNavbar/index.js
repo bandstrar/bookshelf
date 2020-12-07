@@ -48,14 +48,11 @@ const MyNavbar = (props) => {
           {
             user
             && <>
-              <img className="userInfo" src={user?.photoURL} alt={user?.displayName} />
+              <h4 className="text-success">{user?.displayName}</h4>
               <UncontrolledDropdown>
               <DropdownToggle nav caret>
               </DropdownToggle>
               <DropdownMenu right>
-              <DropdownItem>
-                {user?.displayName}
-                </DropdownItem>
                 <DropdownItem>
                   <div
                     className='nav-link btn btn-danger'
