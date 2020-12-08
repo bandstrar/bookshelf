@@ -1,4 +1,5 @@
 import axios from 'axios';
+import externalApiKey from '../apiKeys';
 
 const baseUrl = 'https://bookshelves-ce7f4-default-rtdb.firebaseio.com/';
 
@@ -14,4 +15,11 @@ const getSingleBook = (bookId) => new Promise((resolve, reject) => {
   }).catch((error) => reject(error));
 });
 
-export default { getAllUserBooks, getSingleBook };
+const getSearchedBooks = (search) => new Promise((resolve, reject) => {
+  axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&maxResults=5&key=${externalApiKey.externalApiKey}`)
+    .then((response) => {
+      resolve(Object.values(response.data.items));
+    }).catch((error) => reject(error));
+});
+
+export default { getAllUserBooks, getSingleBook, getSearchedBooks };
