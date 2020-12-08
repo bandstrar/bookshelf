@@ -1,8 +1,10 @@
 import React from 'react';
+import SearchInput from '../components/SearchInput';
 
 const Search = () => (
     <div>
-      <h1>Search</h1>
+      <h4>Search for a New Book:</h4>
+      <SearchInput />
     </div>
 );
 
