@@ -25,7 +25,7 @@ export default function Routes({ user }) {
             <Route
             exact
             path='/books'
-            component={() => <Books />}
+            component={() => <Books user={user} />}
             />
             <Route
             exact
