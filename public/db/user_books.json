@@ -1,0 +1,14 @@
+{
+  "premade1":{
+    "bookId":"-MNKjhrWRRJgGxNEpW-w",
+    "userId":"THk2f6wCtzMIFIWxzLcown0LdSG2",
+    "rating": 3,
+    "notes":"This book is meh"
+  },
+  "premade2":{
+    "bookId":"-MNKjhra-LVyJFY0l-UO",
+    "userId":"THk2f6wCtzMIFIWxzLcown0LdSG2",
+    "rating": 4,
+    "notes":"This book is pretty good, I know the author"
+  }
+}

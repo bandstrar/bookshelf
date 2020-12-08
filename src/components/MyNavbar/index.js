@@ -26,7 +26,7 @@ const MyNavbar = (props) => {
 
   return (
     <div>
-      <Navbar color='dark' dark expand='md' className='justify-content-between'>
+      <Navbar dark expand='md' className='navbar justify-content-between'>
         <Link className="navbar-brand" to='/'>Home</Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -48,9 +48,9 @@ const MyNavbar = (props) => {
           {
             user
             && <>
-              <h4 className="text-success">{user?.displayName}</h4>
+              <h4 className="text-white">{user?.displayName}</h4>
               <UncontrolledDropdown>
-              <DropdownToggle nav caret>
+              <DropdownToggle className="text-white" nav caret>
               </DropdownToggle>
               <DropdownMenu right>
                 <DropdownItem>
