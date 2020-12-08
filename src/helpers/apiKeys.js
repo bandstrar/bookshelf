@@ -8,4 +8,7 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID,
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
-export default firebaseConfig;
+
+const externalApiKey = process.env.REACT_APP_EXTERNAL_API_KEY;
+
+export default { firebaseConfig, externalApiKey };

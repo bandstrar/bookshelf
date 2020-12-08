@@ -3,7 +3,7 @@ import firebaseConfig from '../apiKeys';
 
 const firebaseApp = () => {
   if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig.firebaseConfig);
   }
 };
 
