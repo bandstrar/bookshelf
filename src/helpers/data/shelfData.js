@@ -8,6 +8,20 @@ const getAllUserShelves = (uid) => new Promise((resolve, reject) => {
   }).catch((error) => reject(error));
 });
 
+const createShelf = (data) => new Promise((resolve, reject) => {
+  axios.post(`${baseUrl}/shelves.json`, data)
+    .then((response) => {
+      if (data.image === '') {
+        axios.patch(`${baseUrl}/shelves/${response.data.name}.json`, { image: 'https://i.imgur.com/u2vvtJk.jpg' });
+      }
+      const update = { firebaseKey: response.data.name };
+      axios.patch(`${baseUrl}/shelves/${response.data.name}.json`, update)
+        .then(() => {
+          resolve(response);
+        });
+    }).catch((error) => reject(error));
+});
+
 export default {
-  getAllUserShelves,
+  getAllUserShelves, createShelf,
 };
