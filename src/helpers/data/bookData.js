@@ -22,4 +22,24 @@ const getSearchedBooks = (search) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
-export default { getAllUserBooks, getSingleBook, getSearchedBooks };
+const addBook = (data) => new Promise((resolve, reject) => {
+  axios.post(`${baseUrl}/books.json`, data)
+    .then((response) => {
+      const update = { fbKey: response.data.name };
+      axios.patch(`${baseUrl}/books/${response.data.name}.json`, update)
+        .then(() => {
+          resolve(response);
+        });
+    }).catch((error) => reject(error));
+});
+
+const addUserBook = (firebaseKey, userId) => new Promise((resolve, reject) => {
+  axios.post(`${baseUrl}/user-books.json`, { bookId: firebaseKey, userId })
+    .then((response) => {
+      resolve(response);
+    }).catch((error) => reject(error));
+});
+
+export default {
+  getAllUserBooks, getSingleBook, getSearchedBooks, addBook, addUserBook,
+};
