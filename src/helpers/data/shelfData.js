@@ -22,6 +22,12 @@ const createShelf = (data) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+const updateShelf = (data) => new Promise((resolve, reject) => {
+  axios.patch(`${baseUrl}/shelves/${data.firebaseKey}.json`, data)
+    .then(resolve)
+    .catch((error) => reject(error));
+});
+
 export default {
-  getAllUserShelves, createShelf,
+  getAllUserShelves, createShelf, updateShelf,
 };
