@@ -40,10 +40,17 @@ class ShelfForm extends Component {
    handleSubmit = (e) => {
      e.preventDefault();
 
-     shelfData.createShelf(this.state)
-       .then(() => {
-         this.props.onUpdate();
-       });
+     if (this.state.firebaseKey === '') {
+       shelfData.createShelf(this.state)
+         .then(() => {
+           this.props.onUpdate();
+         });
+     } else {
+       shelfData.updateShelf(this.state)
+         .then(() => {
+           this.props.onUpdate();
+         });
+     }
      this.props.toggle();
    }
 

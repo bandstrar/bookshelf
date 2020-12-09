@@ -25,6 +25,12 @@ class Shelves extends Component {
        });
      }
 
+     updateShelf = (shelf) => (
+        <AppModal modalTitle={'Update a Shelf'} buttonLabel={'Update'}>
+            <ShelfForm shelf={shelf} onUpdate={this.getShelves} />
+        </AppModal>
+     )
+
      setLoading = () => {
        this.timer = setInterval(() => {
          this.setState({ loading: false });
@@ -38,7 +44,7 @@ class Shelves extends Component {
      render() {
        const { shelves, loading } = this.state;
        const showShelves = () => (
-         shelves.map((shelf) => <ShelfCard key={shelf.firebaseKey} shelf={shelf} />)
+         shelves.map((shelf) => <ShelfCard key={shelf.firebaseKey} shelf={shelf} updateShelf={this.updateShelf(shelf)} />)
        );
        return (
             <>
