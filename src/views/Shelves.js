@@ -3,6 +3,8 @@ import shelfData from '../helpers/data/shelfData';
 import getUid from '../helpers/data/authData';
 import ShelfCard from '../components/Cards/ShelfCard';
 import Loader from '../components/Loader';
+import AppModal from '../components/AppModal';
+import ShelfForm from '../components/Forms/ShelfForm';
 
 class Shelves extends Component {
     state = {
@@ -44,6 +46,9 @@ class Shelves extends Component {
           <Loader />
             ) : (
             <>
+            <AppModal modalTitle={'Create a Shelf'} buttonLabel={'Create a Shelf'}>
+                <ShelfForm onUpdate={this.getShelves} />
+            </AppModal>
                 <h2>My Shelves</h2>
                 <div className='d-flex flex-wrap justify-content-between container'>{showShelves()}</div>
             </>
