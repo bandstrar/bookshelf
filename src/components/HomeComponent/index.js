@@ -30,6 +30,10 @@ class HomeComponent extends Component {
      }, 500);
    }
 
+   componentWillUnmount() {
+     clearInterval(this.timer);
+   }
+
    render() {
      const { shelves, loading } = this.state;
      const showHome = () => (
@@ -41,7 +45,6 @@ class HomeComponent extends Component {
           <Loader />
        ) : (
       <div>
-        {console.warn(showHome())}
         {showHome().length !== 0
           ? <>
         <h1>Looking for your Next Read?</h1>
