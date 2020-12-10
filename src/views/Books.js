@@ -49,7 +49,7 @@ class Books extends Component {
             ) : (
             <>
                 <h2>My Books</h2>
-                <div className='d-flex flex-wrap justify-content-between container'>{showBooks()}</div>
+                {books.length !== 0 && <div className='d-flex flex-wrap justify-content-between container'>{showBooks()}</div>}
             </>
             )}
        </>
