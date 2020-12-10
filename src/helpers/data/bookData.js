@@ -9,6 +9,12 @@ const getAllUserBooks = (uid) => new Promise((resolve, reject) => {
   }).catch((error) => reject(error));
 });
 
+const getAllBooks = () => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/books.json`).then((response) => {
+    resolve(Object.values(response.data));
+  }).catch((error) => (reject(error)));
+});
+
 const getSingleUserBook = (uid, bookId) => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/user-books.json?orderBy="userId"&equalTo="${uid}"`).then((response) => {
     const userBooks = Object.values(response.data);
@@ -33,7 +39,7 @@ const getSearchedBooks = (search) => new Promise((resolve, reject) => {
 const addBook = (data) => new Promise((resolve, reject) => {
   axios.post(`${baseUrl}/books.json`, data)
     .then((response) => {
-      const update = { fbKey: response.data.name, tags: [''], avgRating: [0] };
+      const update = { fbKey: response.data.name };
       axios.patch(`${baseUrl}/books/${response.data.name}.json`, update)
         .then(() => {
           resolve(response);
@@ -60,6 +66,12 @@ const updateUserBook = (data) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
+const updateBook = (data) => new Promise((resolve, reject) => {
+  axios.patch(`${baseUrl}/books/${data.fbKey}.json`, data)
+    .then(resolve)
+    .catch((error) => reject(error));
+});
+
 const getShelfBooks = (shelfId) => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/shelf-books.json?orderBy="shelfId"&equalTo="${shelfId}"`).then((response) => {
     resolve(Object.values(response.data));
@@ -77,5 +89,5 @@ const createShelfBook = (data) => new Promise((resolve, reject) => {
 });
 
 export default {
-  getAllUserBooks, getSingleBook, getSearchedBooks, addBook, addUserBook, getSingleUserBook, updateUserBook, getShelfBooks, createShelfBook,
+  getAllUserBooks, getSingleBook, getSearchedBooks, addBook, addUserBook, getSingleUserBook, updateUserBook, getShelfBooks, createShelfBook, updateBook, getAllBooks,
 };

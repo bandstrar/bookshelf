@@ -21,6 +21,49 @@ class UpdateBookForm extends Component {
     });
   }
 
+  updateBookInfo = (bookId) => {
+    const userId = authData.getUid();
+    bookData.getSingleBook(bookId).then((response) => {
+      if (response.avgRating === undefined && response.tags === undefined) {
+        const avgRatingArray = [{ userId, rating: this.state.rating }];
+        const tagArray = [this.state.tags];
+
+        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray });
+      } else if (response.avgRating === undefined) {
+        const avgRatingArray = [{ userId, rating: this.state.rating }];
+        const tagArray = response.tags;
+        tagArray.push(this.state.tags);
+
+        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray });
+      } else if (response.tagArray === undefined) {
+        const avgRatingArray = response.avgRating;
+        const tagArray = [this.state.tags];
+
+        const checkUserRating = avgRatingArray.filter((name) => name.userId === userId);
+        if (checkUserRating.length === 0) {
+          avgRatingArray.push({ userId, rating: this.state.rating });
+        } else {
+          const userIndex = avgRatingArray.findIndex(checkUserRating);
+          avgRatingArray.splice(userIndex, 1, { userId, rating: this.state.rating });
+        }
+        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray });
+      } else {
+        const avgRatingArray = response.avgRating;
+        const tagArray = response.tags;
+
+        const checkUserRating = avgRatingArray.filter((name) => name.userId === userId);
+        if (checkUserRating.length === 0) {
+          avgRatingArray.push({ userId, rating: this.state.rating });
+        } else {
+          const userIndex = avgRatingArray.findIndex(checkUserRating);
+          avgRatingArray.splice(userIndex, 1, { userId, rating: this.state.rating });
+        }
+        tagArray.push(this.state.tags);
+        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray });
+      }
+    });
+  }
+
    handleChange = (e) => {
      this.setState({
        [e.target.name]: e.target.value,
@@ -38,24 +81,25 @@ class UpdateBookForm extends Component {
        userId: this.state.userId,
        bookId: this.state.bookId,
      }).then(() => {
-       this.props.onUpdate(this.props.userBook.bookId);
+       this.updateBookInfo(this.state.bookId);
+       this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
      }).then(() => {
        if (this.state.shelfId !== '') {
          bookData.getShelfBooks(this.state.shelfId)
            .then((response) => {
-             if (response !== []) {
-               const preventDupes = response.filter((name) => name.bookId === this.state.bookId);
-               preventDupes === []
-          && bookData.createShelfBook({ bookId: this.state.bookId, userId: this.state.userId, shelfId: this.state.shelfId });
+             const preventDupes = response.filter((name) => name.bookId === this.state.bookId);
+             if (preventDupes.length === 0) {
+               bookData.createShelfBook({ bookId: this.state.bookId, userId: this.state.userId, shelfId: this.state.shelfId });
              }
            });
        }
      });
+     this.props.toggle();
    }
 
    render() {
      return (
-              <form onSubmit={this.handleSubmit}>
+              <form>
               <input
                 type='text'
                 name='tags'
@@ -85,7 +129,7 @@ class UpdateBookForm extends Component {
                   <option value='5'>5</option>
                 </select>
                 <ShelfSelect onChange={this.handleChange}/>
-                <button>Submit</button>
+                <button onClick={this.handleSubmit}>Submit</button>
           </form>
      );
    }
