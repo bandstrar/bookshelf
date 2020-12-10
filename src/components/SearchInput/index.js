@@ -22,15 +22,28 @@ class SearchInput extends Component {
      const thisBook = Object.values(this.state.books.filter((book) => book.id === e.target.id));
      const userId = authData.getUid();
      const bookInfo = {
-       author: thisBook[0].volumeInfo.authors[0],
+       author: thisBook[0].volumeInfo.authors.join(', '),
        date: thisBook[0].volumeInfo.publishedDate,
+       id: thisBook[0].id,
        image: thisBook[0].volumeInfo.imageLinks.thumbnail,
        name: thisBook[0].volumeInfo.title,
        pages: thisBook[0].volumeInfo.pageCount,
      };
-     bookData.addBook(bookInfo)
+     bookData.getAllBooks()
        .then((response) => {
-         bookData.addUserBook(response.data.name, userId);
+         const doesBookExist = response.filter((book) => book.id === thisBook[0].id);
+         if (doesBookExist.length === 0) {
+           bookData.addBook(bookInfo)
+             .then((resp) => {
+               bookData.addUserBook(resp.data.name, userId);
+             });
+         } else {
+           bookData.getAllUserBooks(userId)
+             .then((res) => {
+               const preventDupes = res.filter((book) => book.bookId === doesBookExist[0].fbKey);
+               preventDupes.length === 0 && bookData.addUserBook(doesBookExist[0].fbKey, userId);
+             });
+         }
        });
    }
 
