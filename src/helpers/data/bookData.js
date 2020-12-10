@@ -49,7 +49,7 @@ const addBook = (data) => new Promise((resolve, reject) => {
 
 const addUserBook = (firebaseKey, userId) => new Promise((resolve, reject) => {
   axios.post(`${baseUrl}/user-books.json`, {
-    bookId: firebaseKey, userId, notes: '', rating: 0,
+    bookId: firebaseKey, userId, notes: '', rating: '',
   })
     .then((response) => {
       const update = { firebaseKey: response.data.name };

@@ -11,7 +11,7 @@ class UpdateBookForm extends Component {
     shelfId: this.props.userBook?.shelfId || '',
     userId: this.props.userBook?.userId || '',
     bookId: this.props.userBook?.bookId || '',
-    tags: this.props.book?.tags || '',
+    tags: '',
   }
 
   componentDidMount() {
@@ -35,7 +35,7 @@ class UpdateBookForm extends Component {
         tagArray.push(this.state.tags);
 
         bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray });
-      } else if (response.tagArray === undefined) {
+      } else if (response.tags === undefined) {
         const avgRatingArray = response.avgRating;
         const tagArray = [this.state.tags];
 
@@ -55,7 +55,7 @@ class UpdateBookForm extends Component {
         if (checkUserRating.length === 0) {
           avgRatingArray.push({ userId, rating: this.state.rating });
         } else {
-          const userIndex = avgRatingArray.findIndex(checkUserRating);
+          const userIndex = avgRatingArray.findIndex((rating) => rating.userId === checkUserRating[0].userId);
           avgRatingArray.splice(userIndex, 1, { userId, rating: this.state.rating });
         }
         tagArray.push(this.state.tags);
@@ -73,6 +73,7 @@ class UpdateBookForm extends Component {
    handleSubmit = (e) => {
      e.preventDefault();
 
+     this.updateBookInfo(this.state.bookId);
      bookData.updateUserBook({
        firebaseKey: this.state.firebaseKey,
        rating: this.state.rating,
@@ -81,7 +82,6 @@ class UpdateBookForm extends Component {
        userId: this.state.userId,
        bookId: this.state.bookId,
      }).then(() => {
-       this.updateBookInfo(this.state.bookId);
        this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
      }).then(() => {
        if (this.state.shelfId !== '') {

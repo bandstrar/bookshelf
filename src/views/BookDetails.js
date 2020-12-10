@@ -58,7 +58,7 @@ class BookDetails extends Component {
         <p className='book-details-date'>{book.date}</p>
         <p className='book-details-rating'>Your Rating: {userBook.rating}</p>
         <p className='book-details-avg-rating'>Average Rating: {book.avgRating !== undefined
-        && (Object.values(book.avgRating.map((rating) => rating.rating))) / book.avgRating.length}</p>
+        && (Object.values(book.avgRating.map((rating) => Number(rating.rating)))).reduce((a, b) => a + b, 0) / book.avgRating.length}</p>
         <p className='book-details-pages'>{book.pages} Pages</p>
         <p className='book-details-tags'>Tags: {book.tags !== undefined && book.tags.join(', ')}</p>
         <p className='book-details-notes'>Notes: {userBook.notes}</p>
