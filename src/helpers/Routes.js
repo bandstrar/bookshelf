@@ -19,6 +19,11 @@ export default function Routes({ user }) {
             />
             <Route
             exact
+            path='/books/:id'
+            component={(props) => <BookDetails user={user} {...props} />}
+            />
+            <Route
+            exact
             path='/shelves'
             component={() => <Shelves user={user} />}
             />
