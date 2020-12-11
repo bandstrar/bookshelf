@@ -36,11 +36,27 @@ class SingleShelf extends Component {
      })
    )
 
+   removeBook = (e) => {
+     const removedBook = this.state.books.filter((book) => book.fbKey !== e.target.id);
+
+     this.setState({
+       books: removedBook,
+     });
+     bookData.getShelfBooks(this.state.shelf.firebaseKey)
+       .then((response) => {
+         const bookToDelete = response.filter((book) => book.bookId === e.target.id);
+         shelfData.deleteShelfBooks(bookToDelete[0].firebaseKey)
+           .then(() => {
+             this.getBooks();
+           });
+       });
+   }
+
    render() {
      const { shelf, books } = this.state;
      const showBooks = () => (
        books.map((book) => (
-        <BookCard key={book.fbKey} book={book} />
+        <BookCard key={book.fbKey} book={book} removeBook={this.removeBook} />
        ))
      );
 
