@@ -8,6 +8,12 @@ const getAllUserShelves = (uid) => new Promise((resolve, reject) => {
   }).catch((error) => reject(error));
 });
 
+const getSingleShelf = (shelfId) => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/shelves/${shelfId}.json`).then((response) => {
+    resolve(response.data);
+  }).catch((error) => reject(error));
+});
+
 const createShelf = (data) => new Promise((resolve, reject) => {
   axios.post(`${baseUrl}/shelves.json`, data)
     .then((response) => {
@@ -29,5 +35,5 @@ const updateShelf = (data) => new Promise((resolve, reject) => {
 });
 
 export default {
-  getAllUserShelves, createShelf, updateShelf,
+  getAllUserShelves, createShelf, updateShelf, getSingleShelf,
 };

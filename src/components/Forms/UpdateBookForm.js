@@ -28,13 +28,19 @@ class UpdateBookForm extends Component {
         const avgRatingArray = [{ userId, rating: this.state.rating }];
         const tagArray = [this.state.tags];
 
-        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray });
+        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray })
+          .then(() => {
+            this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
+          });
       } else if (response.avgRating === undefined) {
         const avgRatingArray = [{ userId, rating: this.state.rating }];
         const tagArray = response.tags;
         tagArray.push(this.state.tags);
 
-        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray });
+        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray })
+          .then(() => {
+            this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
+          });
       } else if (response.tags === undefined) {
         const avgRatingArray = response.avgRating;
         const tagArray = [this.state.tags];
@@ -46,7 +52,10 @@ class UpdateBookForm extends Component {
           const userIndex = avgRatingArray.findIndex(checkUserRating);
           avgRatingArray.splice(userIndex, 1, { userId, rating: this.state.rating });
         }
-        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray });
+        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray })
+          .then(() => {
+            this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
+          });
       } else {
         const avgRatingArray = response.avgRating;
         const tagArray = response.tags;
@@ -59,7 +68,10 @@ class UpdateBookForm extends Component {
           avgRatingArray.splice(userIndex, 1, { userId, rating: this.state.rating });
         }
         tagArray.push(this.state.tags);
-        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray });
+        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray })
+          .then(() => {
+            this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
+          });
       }
     });
   }
@@ -73,7 +85,6 @@ class UpdateBookForm extends Component {
    handleSubmit = (e) => {
      e.preventDefault();
 
-     this.updateBookInfo(this.state.bookId);
      bookData.updateUserBook({
        firebaseKey: this.state.firebaseKey,
        rating: this.state.rating,
@@ -82,7 +93,7 @@ class UpdateBookForm extends Component {
        userId: this.state.userId,
        bookId: this.state.bookId,
      }).then(() => {
-       this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
+       this.updateBookInfo(this.state.bookId);
      }).then(() => {
        if (this.state.shelfId !== '') {
          bookData.getShelfBooks(this.state.shelfId)
