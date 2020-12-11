@@ -5,6 +5,7 @@ import ShelfCard from '../components/Cards/ShelfCard';
 import Loader from '../components/Loader';
 import AppModal from '../components/AppModal';
 import ShelfForm from '../components/Forms/ShelfForm';
+import bookData from '../helpers/data/bookData';
 
 class Shelves extends Component {
     state = {
@@ -23,6 +24,24 @@ class Shelves extends Component {
            shelves: response,
          }, this.setLoading);
        });
+     }
+
+     removeShelf = (e) => {
+       const removedShelf = this.state.shelves.filter((shelf) => shelf.firebaseKey !== e.target.id);
+
+       this.setState({
+         shelves: removedShelf,
+       });
+       bookData.getShelfBooks(e.target.id)
+         .then((response) => {
+           response.forEach((shelfBook) => {
+             shelfData.deleteShelfBooks(shelfBook.firebaseKey);
+           });
+         });
+       shelfData.deleteShelf(e.target.id)
+         .then(() => {
+           this.getShelves();
+         });
      }
 
      updateShelf = (shelf) => (
@@ -44,7 +63,7 @@ class Shelves extends Component {
      render() {
        const { shelves, loading } = this.state;
        const showShelves = () => (
-         shelves.map((shelf) => <ShelfCard key={shelf.firebaseKey} shelf={shelf} updateShelf={this.updateShelf(shelf)} />)
+         shelves.map((shelf) => <ShelfCard key={shelf.firebaseKey} shelf={shelf} updateShelf={this.updateShelf(shelf)} removeShelf={this.removeShelf} />)
        );
        return (
             <>
