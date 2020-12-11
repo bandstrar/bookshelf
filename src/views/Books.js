@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import getUid from '../helpers/data/authData';
 import bookData from '../helpers/data/bookData';
+import shelfData from '../helpers/data/shelfData';
 import BookCard from '../components/Cards/BookCard';
 import Loader from '../components/Loader';
 
@@ -27,6 +28,28 @@ class Books extends Component {
        })
      )
 
+     removeBook = (e) => {
+       const removedBook = this.state.books.filter((book) => book.fbKey !== e.target.id);
+
+       this.setState({
+         books: removedBook,
+       });
+       bookData.getAllShelfBooks()
+         .then((response) => {
+           const booksToDelete = response.filter((book) => book.bookId === e.target.id);
+           booksToDelete.forEach((book) => {
+             shelfData.deleteShelfBooks(book.firebaseKey);
+           });
+         });
+       bookData.getSingleUserBook(getUid.getUid(), e.target.id)
+         .then((response) => {
+           bookData.deleteUserBook(response.firebaseKey)
+             .then(() => {
+               this.getBooks();
+             });
+         });
+     }
+
      setLoading = () => {
        this.timer = setInterval(() => {
          this.setState({ loading: false });
@@ -40,7 +63,7 @@ class Books extends Component {
      render() {
        const { books, loading } = this.state;
        const showBooks = () => (
-         books.map((book) => <BookCard key={book.fbKey} book={book} />)
+         books.map((book) => <BookCard key={book.fbKey} book={book} removeBook={this.removeBook} />)
        );
        return (
             <>
