@@ -34,8 +34,8 @@ export default function Routes({ user }) {
             />
             <Route
             exact
-            path='/single-shelf'
-            component={() => <SingleShelf />}
+            path='/shelves/:id'
+            component={(props) => <SingleShelf user={user} {...props} />}
             />
             <Route
             exact
