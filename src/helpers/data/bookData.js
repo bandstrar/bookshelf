@@ -78,6 +78,12 @@ const getShelfBooks = (shelfId) => new Promise((resolve, reject) => {
   }).catch((error) => reject(error));
 });
 
+const getAllShelfBooks = () => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/shelf-books.json`).then((response) => {
+    resolve(Object.values(response.data));
+  }).catch((error) => reject(error));
+});
+
 const createShelfBook = (data) => new Promise((resolve, reject) => {
   axios.post(`${baseUrl}/shelf-books.json`, data)
     .then((response) => {
@@ -88,6 +94,20 @@ const createShelfBook = (data) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+const deleteUserBook = (firebaseKey) => axios.delete(`${baseUrl}/user-books/${firebaseKey}.json`);
+
 export default {
-  getAllUserBooks, getSingleBook, getSearchedBooks, addBook, addUserBook, getSingleUserBook, updateUserBook, getShelfBooks, createShelfBook, updateBook, getAllBooks,
+  getAllUserBooks,
+  getSingleBook,
+  getSearchedBooks,
+  addBook,
+  addUserBook,
+  getSingleUserBook,
+  updateUserBook,
+  getShelfBooks,
+  createShelfBook,
+  updateBook,
+  getAllBooks,
+  deleteUserBook,
+  getAllShelfBooks,
 };

@@ -11,7 +11,7 @@ class UpdateBookForm extends Component {
     shelfId: this.props.userBook?.shelfId || '',
     userId: this.props.userBook?.userId || '',
     bookId: this.props.userBook?.bookId || '',
-    tags: '',
+    tags: null,
   }
 
   componentDidMount() {
