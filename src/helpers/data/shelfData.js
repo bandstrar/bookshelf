@@ -28,6 +28,10 @@ const createShelf = (data) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+const deleteShelf = (shelfId) => axios.delete(`${baseUrl}/shelves/${shelfId}.json`);
+
+const deleteShelfBooks = (firebaseKey) => axios.delete(`${baseUrl}/shelf-books/${firebaseKey}.json`);
+
 const updateShelf = (data) => new Promise((resolve, reject) => {
   axios.patch(`${baseUrl}/shelves/${data.firebaseKey}.json`, data)
     .then(resolve)
@@ -35,5 +39,5 @@ const updateShelf = (data) => new Promise((resolve, reject) => {
 });
 
 export default {
-  getAllUserShelves, createShelf, updateShelf, getSingleShelf,
+  getAllUserShelves, createShelf, updateShelf, getSingleShelf, deleteShelf, deleteShelfBooks,
 };
