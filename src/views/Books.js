@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import getUid from '../helpers/data/authData';
 import bookData from '../helpers/data/bookData';
 import shelfData from '../helpers/data/shelfData';
@@ -84,7 +85,10 @@ class Books extends Component {
             ) : (
             <>
                 <h2>My Books</h2>
-                <button onClick={this.getRandomBook}>Random</button>
+                <div className="d-flex flex-wrap justify-content-between">
+                <button className='btn btn-dark' onClick={this.getRandomBook}>Random</button>
+                <Link className='btn btn-info' to={'/collection-search'}>Find a Book</Link>
+                </div>
                 {books.length !== 0 && <div className='d-flex flex-wrap justify-content-between container'>{showBooks()}</div>}
             </>
             )}
