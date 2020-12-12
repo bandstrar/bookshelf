@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Ratings from 'react-ratings-declarative';
 import authData from '../../helpers/data/authData';
 import bookData from '../../helpers/data/bookData';
 import ShelfSelect from '../ShelfSelect';
@@ -18,6 +19,12 @@ class UpdateBookForm extends Component {
     const userId = authData.getUid();
     this.setState({
       userId,
+    });
+  }
+
+  changeRating = (newRating) => {
+    this.setState({
+      rating: newRating,
     });
   }
 
@@ -127,18 +134,19 @@ class UpdateBookForm extends Component {
                 placeholder='Notes or Review'
                 className='form-control form-control-lg m-1'
                 />
-                <select
-                name='rating'
-                className='form-control user-rating'
-                onChange={this.handleChange}
-                >
-                  <option value=''>Your Rating</option>
-                  <option value='1'>1</option>
-                  <option value='2'>2</option>
-                  <option value='3'>3</option>
-                  <option value='4'>4</option>
-                  <option value='5'>5</option>
-                </select>
+                <Ratings
+                          rating={this.state.rating}
+                          widgetRatedColors="yellow"
+                          changeRating={this.changeRating}
+                          widgetDimensions="40px"
+                          widgetSpacings="15px"
+                          >
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                            <Ratings.Widget />
+                            </Ratings>
                 <ShelfSelect onChange={this.handleChange}/>
                 <button onClick={this.handleSubmit}>Submit</button>
           </form>
