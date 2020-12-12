@@ -28,6 +28,18 @@ class Books extends Component {
        })
      )
 
+     getRandomBook = () => (
+       bookData.getAllUserBooks(getUid.getUid()).then((response) => {
+         const randomBook = Math.floor(Math.random() * Math.floor(response.length));
+         bookData.getSingleBook(response[randomBook].bookId)
+           .then((resp) => {
+             this.setState({
+               books: [resp],
+             });
+           });
+       })
+     )
+
      removeBook = (e) => {
        const removedBook = this.state.books.filter((book) => book.fbKey !== e.target.id);
 
@@ -72,6 +84,7 @@ class Books extends Component {
             ) : (
             <>
                 <h2>My Books</h2>
+                <button onClick={this.getRandomBook}>Random</button>
                 {books.length !== 0 && <div className='d-flex flex-wrap justify-content-between container'>{showBooks()}</div>}
             </>
             )}

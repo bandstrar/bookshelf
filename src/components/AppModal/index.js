@@ -21,8 +21,8 @@ const AppModal = (props) => {
     <div className="m-2">
       <Button className='modal-add' onClick={toggle}>{buttonLabel}</Button>
       <Modal isOpen={modal} toggle={toggle} className={className}>
-        <ModalHeader toggle={toggle}>{modalTitle}</ModalHeader>
-        <ModalBody>
+        <ModalHeader toggle={toggle} className='modal-header'>{modalTitle}</ModalHeader>
+        <ModalBody className='modal-body'>
           {React.cloneElement(props.children, { toggle })}
         </ModalBody>
       </Modal>

@@ -36,6 +36,18 @@ class SingleShelf extends Component {
      })
    )
 
+   getRandomBook = (shelfId) => (
+     bookData.getShelfBooks(shelfId).then((response) => {
+       const randomBook = Math.floor(Math.random() * Math.floor(response.length));
+       bookData.getSingleBook(response[randomBook].bookId)
+         .then((resp) => {
+           this.setState({
+             books: [resp],
+           });
+         });
+     })
+   )
+
    removeBook = (e) => {
      const removedBook = this.state.books.filter((book) => book.fbKey !== e.target.id);
 
@@ -63,6 +75,7 @@ class SingleShelf extends Component {
      return (
       <div>
       <h1>{shelf.name}</h1>
+      <button onClick={() => this.getRandomBook(shelf.firebaseKey)}>Random</button>
       <div className='d-flex flex-wrap container'>
         {showBooks()}
       </div>
