@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import {
   Collapse,
   Navbar,
@@ -14,21 +14,30 @@ import {
   DropdownItem,
 } from 'reactstrap';
 
-const MyNavbar = (props) => {
-  const logMeOut = (e) => {
+class MyNavbar extends Component {
+  state = {
+    isOpen: false,
+  }
+
+  logMeOut = (e) => {
     e.preventDefault();
+    this.props.history.push('/');
     firebase.auth().signOut();
   };
-  const { user } = props;
-  const [isOpen, setIsOpen] = useState(false);
 
-  const toggle = () => setIsOpen(!isOpen);
+  toggle = () => this.setState({
+    isOpen: !this.state.isOpen,
+  })
 
-  return (
+  render() {
+    const { isOpen } = this.state;
+    const { user } = this.props;
+
+    return (
     <div>
       <Navbar dark expand='md' className='navbar justify-content-between'>
         <Link className="navbar-brand" to='/'>Home</Link>
-        <NavbarToggler onClick={toggle} />
+        <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className='mr-auto' navbar>
             <NavItem>
@@ -56,7 +65,7 @@ const MyNavbar = (props) => {
                 <DropdownItem>
                   <div
                     className='nav-link btn btn-danger'
-                    onClick={(e) => logMeOut(e)}
+                    onClick={(e) => this.logMeOut(e)}
                   >
                     Logout
                   </div>
@@ -68,7 +77,8 @@ const MyNavbar = (props) => {
         </Collapse>
       </Navbar>
     </div>
-  );
-};
+    );
+  }
+}
 
-export default MyNavbar;
+export default withRouter(MyNavbar);
