@@ -33,7 +33,7 @@ class UpdateBookForm extends Component {
     bookData.getSingleBook(bookId).then((response) => {
       if (response.avgRating === undefined && response.tags === undefined) {
         const avgRatingArray = [{ userId, rating: this.state.rating }];
-        const tagArray = [this.state.tags];
+        const tagArray = [this.state.tags.toLowerCase()];
 
         bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray })
           .then(() => {
@@ -42,7 +42,7 @@ class UpdateBookForm extends Component {
       } else if (response.avgRating === undefined) {
         const avgRatingArray = [{ userId, rating: this.state.rating }];
         const tagArray = response.tags;
-        tagArray.push(this.state.tags);
+        tagArray.push(this.state.tags.toLowerCase());
 
         bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray })
           .then(() => {
@@ -50,7 +50,7 @@ class UpdateBookForm extends Component {
           });
       } else if (response.tags === undefined) {
         const avgRatingArray = response.avgRating;
-        const tagArray = [this.state.tags];
+        const tagArray = [this.state.tags.toLowerCase()];
 
         const checkUserRating = avgRatingArray.filter((name) => name.userId === userId);
         if (checkUserRating.length === 0) {
@@ -74,7 +74,7 @@ class UpdateBookForm extends Component {
           const userIndex = avgRatingArray.findIndex((rating) => rating.userId === checkUserRating[0].userId);
           avgRatingArray.splice(userIndex, 1, { userId, rating: this.state.rating });
         }
-        tagArray.push(this.state.tags);
+        tagArray.push(this.state.tags.toLowerCase());
         bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray })
           .then(() => {
             this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
