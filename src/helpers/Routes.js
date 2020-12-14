@@ -7,7 +7,6 @@ import Books from '../views/Books';
 import SingleShelf from '../views/SingleShelf';
 import BookDetails from '../views/BookDetails';
 import Search from '../views/Search';
-import CollectionSearch from '../views/CollectionSearch';
 
 export default function Routes({ user }) {
   return (
@@ -46,11 +45,6 @@ export default function Routes({ user }) {
             exact
             path='/search'
             component={() => <Search />}
-            />
-            <Route
-            exact
-            path='/collection-search'
-            component={() => <CollectionSearch />}
             />
             <Route component={NotFound} />
         </Switch>

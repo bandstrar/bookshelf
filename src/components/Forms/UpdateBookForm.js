@@ -31,26 +31,15 @@ class UpdateBookForm extends Component {
   updateBookInfo = (bookId) => {
     const userId = authData.getUid();
     bookData.getSingleBook(bookId).then((response) => {
-      if (response.avgRating === undefined && response.tags === undefined) {
+      if (response.avgRating === undefined && this.state.tags === null) {
         const avgRatingArray = [{ userId, rating: this.state.rating }];
-        const tagArray = [this.state.tags.toLowerCase()];
 
-        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray })
+        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray })
           .then(() => {
             this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
           });
-      } else if (response.avgRating === undefined) {
-        const avgRatingArray = [{ userId, rating: this.state.rating }];
-        const tagArray = response.tags;
-        tagArray.push(this.state.tags.toLowerCase());
-
-        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray })
-          .then(() => {
-            this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
-          });
-      } else if (response.tags === undefined) {
+      } else if (this.state.tags === null) {
         const avgRatingArray = response.avgRating;
-        const tagArray = [this.state.tags.toLowerCase()];
 
         const checkUserRating = avgRatingArray.filter((name) => name.userId === userId);
         if (checkUserRating.length === 0) {
@@ -59,6 +48,15 @@ class UpdateBookForm extends Component {
           const userIndex = avgRatingArray.findIndex(checkUserRating);
           avgRatingArray.splice(userIndex, 1, { userId, rating: this.state.rating });
         }
+        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray })
+          .then(() => {
+            this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
+          });
+      } else if (response.avgRating === undefined) {
+        const avgRatingArray = [{ userId, rating: this.state.rating }];
+        const tagArray = response.tags;
+        tagArray.push(this.state.tags.toLowerCase());
+
         bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray })
           .then(() => {
             this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);

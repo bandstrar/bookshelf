@@ -99,7 +99,7 @@ const searchBooks = (searchTerm, bookId) => new Promise((resolve, reject) => {
     .then((response) => {
       const searched = response.filter((book) => book.name.toLowerCase().includes(searchTerm) || book.author.toLowerCase().includes(searchTerm) || book.tags.includes(searchTerm));
       const userSearched = searched.filter((userBook) => userBook.fbKey === bookId);
-      userSearched.length !== 0 ? resolve(userSearched[0]) : resolve('');
+      userSearched.length !== 0 ? resolve(userSearched[0]) : resolve(null);
     }).catch((error) => reject(error));
 });
 
