@@ -7,6 +7,7 @@ import Loader from '../components/Loader';
 
 class Books extends Component {
     state = {
+      text: '',
       books: [],
       loading: true,
     }
@@ -17,6 +18,31 @@ class Books extends Component {
           this.setState({ books: resp }, this.setLoading)
         ));
     }
+
+    handleSubmit = (e) => {
+      e.preventDefault();
+
+      this.getSearchedBooks()
+        .then((response) => {
+          this.setState({ books: response });
+        });
+    }
+
+    handleChange = (e) => {
+      this.setState({
+        [e.target.name]: e.target.value,
+      });
+    }
+
+    getSearchedBooks = () => (
+      bookData.getAllUserBooks(getUid.getUid()).then((res) => {
+        const searchedBookArray = [];
+        res.forEach((item) => {
+          searchedBookArray.push(bookData.searchBooks(this.state.text, item.bookId));
+        });
+        return Promise.all([...searchedBookArray]);
+      })
+    )
 
      getBooks = () => (
        bookData.getAllUserBooks(getUid.getUid()).then((response) => {
@@ -73,9 +99,9 @@ class Books extends Component {
      }
 
      render() {
-       const { books, loading } = this.state;
+       const { books, loading, text } = this.state;
        const showBooks = () => (
-         books.map((book) => <BookCard key={book.fbKey} book={book} removeBook={this.removeBook} />)
+         books.map((book) => book !== null && <BookCard key={book.fbKey} book={book} removeBook={this.removeBook} />)
        );
        return (
             <>
@@ -84,7 +110,13 @@ class Books extends Component {
             ) : (
             <>
                 <h2>My Books</h2>
-                <button onClick={this.getRandomBook}>Random</button>
+                <div className="d-flex flex-wrap justify-content-between">
+                <button className='btn btn-dark' onClick={this.getRandomBook}>Random</button>
+                <form onSubmit={this.handleSubmit}>
+                <input type='text' name='text' value={text} onChange={this.handleChange}
+                placeholder='Enter a Title, Author, or Tag' />
+                </form>
+                </div>
                 {books.length !== 0 && <div className='d-flex flex-wrap justify-content-between container'>{showBooks()}</div>}
             </>
             )}

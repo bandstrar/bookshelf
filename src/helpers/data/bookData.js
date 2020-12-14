@@ -94,6 +94,15 @@ const createShelfBook = (data) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+const searchBooks = (searchTerm, bookId) => new Promise((resolve, reject) => {
+  getAllBooks()
+    .then((response) => {
+      const searched = response.filter((book) => book.name.toLowerCase().includes(searchTerm) || book.author.toLowerCase().includes(searchTerm) || book.tags.includes(searchTerm));
+      const userSearched = searched.filter((userBook) => userBook.fbKey === bookId);
+      userSearched.length !== 0 ? resolve(userSearched[0]) : resolve(null);
+    }).catch((error) => reject(error));
+});
+
 const deleteUserBook = (firebaseKey) => axios.delete(`${baseUrl}/user-books/${firebaseKey}.json`);
 
 export default {
@@ -110,4 +119,5 @@ export default {
   getAllBooks,
   deleteUserBook,
   getAllShelfBooks,
+  searchBooks,
 };

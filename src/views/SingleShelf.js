@@ -5,6 +5,7 @@ import BookCard from '../components/Cards/BookCard';
 
 class SingleShelf extends Component {
   state = {
+    text: '',
     shelf: {},
     books: [],
   }
@@ -17,6 +18,31 @@ class SingleShelf extends Component {
         this.setState({ books: response })
       ));
   }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    this.getSearchedBooks()
+      .then((response) => {
+        this.setState({ books: response });
+      });
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  getSearchedBooks = () => (
+    bookData.getShelfBooks(this.state.shelf.firebaseKey).then((res) => {
+      const searchedBookArray = [];
+      res.forEach((item) => {
+        searchedBookArray.push(bookData.searchBooks(this.state.text, item.bookId));
+      });
+      return Promise.all([...searchedBookArray]);
+    })
+  )
 
    getShelfInfo = (shelfId) => {
      shelfData.getSingleShelf(shelfId).then((response) => {
@@ -65,17 +91,23 @@ class SingleShelf extends Component {
    }
 
    render() {
-     const { shelf, books } = this.state;
+     const { shelf, books, text } = this.state;
      const showBooks = () => (
        books.map((book) => (
-        <BookCard key={book.fbKey} book={book} removeBook={this.removeBook} />
+         book !== null && <BookCard key={book.fbKey} book={book} removeBook={this.removeBook} />
        ))
      );
 
      return (
       <div>
       <h1>{shelf.name}</h1>
+      <div className="d-flex flex-wrap justify-content-between">
       <button onClick={() => this.getRandomBook(shelf.firebaseKey)}>Random</button>
+      <form onSubmit={this.handleSubmit}>
+      <input type='text' name='text' value={text} onChange={this.handleChange}
+      placeholder='Enter a Title, Author, or Tag' />
+      </form>
+      </div>
       <div className='d-flex flex-wrap container'>
         {showBooks()}
       </div>
