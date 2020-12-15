@@ -146,7 +146,7 @@ class UpdateBookForm extends Component {
                             <Ratings.Widget />
                             </Ratings>
                 <ShelfSelect onChange={this.handleChange}/>
-                <button onClick={this.handleSubmit}>Submit</button>
+                <button className='btn btn-dark bookshelves-buttons' onClick={this.handleSubmit}>Submit</button>
           </form>
      );
    }
