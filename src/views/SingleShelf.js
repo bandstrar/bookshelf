@@ -99,6 +99,10 @@ class SingleShelf extends Component {
        });
    }
 
+   componentWillUnmount() {
+     clearInterval(this.timer);
+   }
+
    render() {
      const {
        shelf, books, text, loading,
@@ -115,15 +119,16 @@ class SingleShelf extends Component {
     <Loader />
       ) : (
       <div>
-      <h1>{shelf.name}</h1>
+      <h1 className='text-container'>{shelf.name}</h1>
       <div className="d-flex flex-wrap justify-content-between">
-      <button onClick={() => this.getRandomBook(shelf.firebaseKey)}>Random</button>
+      <button className='btn btn-dark m-2 bookshelves-buttons' onClick={this.getRandomBook}>Random</button>
+      <button className='btn btn-secondary m-2 bookshelves-buttons' onClick={this.showAllBooks}>Show All</button>
       <form onSubmit={this.handleSubmit}>
-      <input type='text' name='text' value={text} onChange={this.handleChange}
-      placeholder='Enter a Title, Author, or Tag' />
+        <input className='collection-search-form m-2' type='text' name='text' value={text} onChange={this.handleChange}
+        placeholder='Enter a Title, Author, or Tag' />
       </form>
       </div>
-      <div className='carousel-background-image'>
+      <div className='shelf-background-image'>
       <CardCarousel cards={showBooks()} />
       </div>
       </div>

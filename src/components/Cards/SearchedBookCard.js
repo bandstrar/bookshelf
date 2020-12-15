@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Card, CardImg, CardBody,
-  CardTitle,
+  CardTitle, Button,
 } from 'reactstrap';
 
-export default function BookCard({ book, addNewBook }) {
-  return (
+class SearchedBookCard extends Component {
+  state = {
+    clicked: false,
+  }
+
+  deactivateButton = () => {
+    const currentState = this.state.clicked;
+    this.setState({ clicked: !currentState });
+  }
+
+  render() {
+    const { clicked } = this.state;
+    const { book, addNewBook } = this.props;
+    return (
     <div>
       <Card style={{
         width: '90%', margin: '10px', background: '#9b775d',
@@ -19,12 +31,24 @@ export default function BookCard({ book, addNewBook }) {
           <div className='d-flex flex-column justify-content-center'>
           <CardTitle tag="h5">{book.volumeInfo.title}</CardTitle>
           <CardTitle tag="h5">{book.volumeInfo.authors.join(', ')}</CardTitle>
-          <button className='btn btn-success w-25 align-self-center' id={book.id} onClick={(e) => addNewBook(e)}><i class="fas fa-plus-circle"></i>Add Book to Collection</button>
+          <CardTitle tag="h5">Publication Date: {book.volumeInfo.publishedDate}</CardTitle>
+          {clicked ? (
+            <Button className='btn btn-secondary w-25 align-self-center' disabled id={book.id}>Book Added to Collection!</Button>
+          )
+            : <Button className='btn btn-success w-25 align-self-center' id={book.id} onClick={(e) => {
+              addNewBook(e);
+              this.deactivateButton();
+            }}><i className="fas fa-plus-circle"></i>Add Book to Collection</Button>
+          }
+
           </div>
         </CardBody>
         </div>
         </div>
       </Card>
     </div>
-  );
+    );
+  }
 }
+
+export default SearchedBookCard;

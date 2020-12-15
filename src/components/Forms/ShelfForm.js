@@ -82,7 +82,7 @@ class ShelfForm extends Component {
         accept='image/*'
         onChange={this.handleChange}
         />
-    <Button onClick={this.handleSubmit}>Submit</Button>
+    <Button className='bookshelves-buttons' onClick={this.handleSubmit}>Submit</Button>
     </form>
 
      );

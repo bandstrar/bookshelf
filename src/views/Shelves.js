@@ -71,10 +71,10 @@ class Shelves extends Component {
           <Loader />
             ) : (
             <>
-            <AppModal modalTitle={'Create a Shelf'} buttonLabel={'Create a Shelf'}>
+                <h2 className='text-container'>My Shelves</h2>
+                <AppModal modalTitle={'Create a Shelf'} buttonLabel={'Create a Shelf'}>
                 <ShelfForm onUpdate={this.getShelves} />
-            </AppModal>
-                <h2>My Shelves</h2>
+                </AppModal>
                 <div className='d-flex flex-wrap justify-content-between container'>{showShelves()}</div>
             </>
             )}

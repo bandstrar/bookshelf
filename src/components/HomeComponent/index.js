@@ -47,13 +47,13 @@ class HomeComponent extends Component {
       <div>
         {showHome().length !== 0
           ? <>
-        <h1>Looking for your Next Read?</h1>
+        <h1 className='text-container'>Looking for your Next Read?</h1>
         <div className='d-flex flex-wrap justify-content-center container'>{showHome()}</div>
         </>
           : <>
           <h1>Start Adding Books to Your Shelves!</h1>
           <div className='d-flex flex-wrap justify-content-center container'>
-          <Link className='btn btn-primary' to={'/search'}>
+          <Link className='btn btn-primary bookshelves-buttons' to={'/search'}>
             Search for a Book
             </Link>
         </div>

@@ -14,7 +14,7 @@ export default function ShelfCard({ shelf, updateShelf, removeShelf }) {
           <CardTitle tag="h5">{shelf.name}</CardTitle>
           <div className='d-flex flex-flow justify-content-between'>
           {updateShelf}
-          <button className='btn btn-danger' id={shelf.firebaseKey} onClick={(e) => removeShelf(e)}>Delete</button>
+          <button className='btn btn-danger delete-button' id={shelf.firebaseKey} onClick={(e) => removeShelf(e)}>Delete</button>
           </div>
         </CardBody>
       </Card>
