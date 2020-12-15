@@ -64,7 +64,7 @@ class SearchInput extends Component {
    render() {
      const { books, text } = this.state;
      const showBooks = () => (
-       books.map((book) => book.volumeInfo.imageLinks !== undefined && <SearchedBookCard key={book.id} book={book} addNewBook={this.addNewBook} />)
+       books.map((book) => (book.volumeInfo.imageLinks !== undefined && book.volumeInfo.authors !== undefined) && <SearchedBookCard key={book.id} book={book} addNewBook={this.addNewBook} />)
      );
      return (
        <div>
