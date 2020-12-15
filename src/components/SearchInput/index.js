@@ -67,10 +67,15 @@ class SearchInput extends Component {
        books.map((book) => book.volumeInfo.imageLinks !== undefined && <SearchedBookCard key={book.id} book={book} addNewBook={this.addNewBook} />)
      );
      return (
+       <div>
       <form onSubmit={this.handleSubmit}>
-        <input type='text' name='text' value={text} onChange={this.handleChange} placeholder='Enter a Title or Author' />
-        {books !== [] && <div className='d-flex flex-wrap container'>{showBooks()}</div>}
+        <div className='d-flex row-wrap'>
+        <h4 className='m-3'>Search for a New Book:</h4>
+        <input className='m-3' type='text' name='text' value={text} onChange={this.handleChange} placeholder='Enter a Title or Author' />
+        </div>
       </form>
+        {books.length !== 0 && <div className='d-flex flex-column justify-content-center container bg-white'>{showBooks()}</div>}
+        </div>
      );
    }
 }

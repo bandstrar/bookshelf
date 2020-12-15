@@ -7,12 +7,23 @@ import {
 export default function BookCard({ book, addNewBook }) {
   return (
     <div>
-      <Card style={{ width: '18rem', margin: '20px', background: '#9b775d' }}>
-        <CardImg top width="100%" src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title} />
+      <Card style={{
+        width: '90%', margin: '10px', background: '#9b775d',
+      }}>
+      <div className='row no-gutters'>
+        <div className='col-md-4'>
+        <CardImg style={{ width: '50%', height: '100%' }} src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title} />
+        </div>
+        <div className='col-md-8'>
         <CardBody>
+          <div className='d-flex flex-column justify-content-center'>
           <CardTitle tag="h5">{book.volumeInfo.title}</CardTitle>
-          <button className='btn btn-success' id={book.id} onClick={(e) => addNewBook(e)}>Add Book to Collection</button>
+          <CardTitle tag="h5">{book.volumeInfo.authors.join(', ')}</CardTitle>
+          <button className='btn btn-success w-25 align-self-center' id={book.id} onClick={(e) => addNewBook(e)}><i class="fas fa-plus-circle"></i>Add Book to Collection</button>
+          </div>
         </CardBody>
+        </div>
+        </div>
       </Card>
     </div>
   );

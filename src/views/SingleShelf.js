@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import bookData from '../helpers/data/bookData';
 import shelfData from '../helpers/data/shelfData';
+import CardCarousel from '../components/Carousel';
+import Loader from '../components/Loader';
 import BookCard from '../components/Cards/BookCard';
 
 class SingleShelf extends Component {
@@ -8,6 +10,7 @@ class SingleShelf extends Component {
     text: '',
     shelf: {},
     books: [],
+    loading: true,
   }
 
   componentDidMount() {
@@ -15,7 +18,7 @@ class SingleShelf extends Component {
     this.getShelfInfo(shelfId);
     this.getBooks(shelfId)
       .then((response) => (
-        this.setState({ books: response })
+        this.setState({ books: response }, this.setLoading)
       ));
   }
 
@@ -24,7 +27,7 @@ class SingleShelf extends Component {
 
     this.getSearchedBooks()
       .then((response) => {
-        this.setState({ books: response });
+        this.setState({ books: response, loading: true }, this.setLoading);
       });
   }
 
@@ -32,6 +35,12 @@ class SingleShelf extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
+  }
+
+  setLoading = () => {
+    this.timer = setInterval(() => {
+      this.setState({ loading: false });
+    }, 500);
   }
 
   getSearchedBooks = () => (
@@ -91,7 +100,9 @@ class SingleShelf extends Component {
    }
 
    render() {
-     const { shelf, books, text } = this.state;
+     const {
+       shelf, books, text, loading,
+     } = this.state;
      const showBooks = () => (
        books.map((book) => (
          book !== null && <BookCard key={book.fbKey} book={book} removeBook={this.removeBook} />
@@ -99,6 +110,10 @@ class SingleShelf extends Component {
      );
 
      return (
+      <>
+      { loading ? (
+    <Loader />
+      ) : (
       <div>
       <h1>{shelf.name}</h1>
       <div className="d-flex flex-wrap justify-content-between">
@@ -108,10 +123,12 @@ class SingleShelf extends Component {
       placeholder='Enter a Title, Author, or Tag' />
       </form>
       </div>
-      <div className='d-flex flex-wrap container'>
-        {showBooks()}
+      <div className='carousel-background-image'>
+      <CardCarousel cards={showBooks()} />
       </div>
       </div>
+      )}
+     </>
      );
    }
 }
