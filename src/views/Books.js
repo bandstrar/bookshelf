@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import getUid from '../helpers/data/authData';
 import bookData from '../helpers/data/bookData';
 import shelfData from '../helpers/data/shelfData';
-import BookCard from '../components/Cards/BookCard';
+import CardCarousel from '../components/Carousel';
 import Loader from '../components/Loader';
+import BookCard from '../components/Cards/BookCard';
 
 class Books extends Component {
     state = {
@@ -24,7 +25,7 @@ class Books extends Component {
 
       this.getSearchedBooks()
         .then((response) => {
-          this.setState({ books: response });
+          this.setState({ books: response, loading: true }, this.setLoading);
         });
     }
 
@@ -91,7 +92,7 @@ class Books extends Component {
      setLoading = () => {
        this.timer = setInterval(() => {
          this.setState({ loading: false });
-       }, 1000);
+       }, 500);
      }
 
      componentWillUnmount() {
@@ -117,7 +118,9 @@ class Books extends Component {
                 placeholder='Enter a Title, Author, or Tag' />
                 </form>
                 </div>
-                {books.length !== 0 && <div className='d-flex flex-wrap justify-content-between container'>{showBooks()}</div>}
+                <div className='carousel-background-image'>
+                {books.length !== 0 && <CardCarousel cards={showBooks()} />}
+                </div>
             </>
             )}
        </>
