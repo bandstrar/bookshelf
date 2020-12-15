@@ -12,8 +12,8 @@ class Auth extends Component {
   render() {
     return (
       <div className='Auth'>
-        <h1>Welcome to BookShelves!</h1>
-        <button className='btn btn-secondary' onClick={this.loginClickEvent}>
+        <h1 className='text-container'>Welcome to BookShelves!</h1>
+        <button className='btn btn-secondary mt-2 bookshelves-buttons' onClick={this.loginClickEvent}>
           Log In
         </button>
       </div>

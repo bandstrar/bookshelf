@@ -1,9 +1,15 @@
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Goudy+Bookletter+1911&display=swap');
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import 'variables';
 @import './components/index.scss';
 
 body {
+  background-image: url('https://i.imgur.com/K0n55xK.jpg');
   background-color: $favColor;
-  color: #e1d2b8;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  color: $fifth;
+  font-family: 'Goudy Bookletter 1911', serif;
 }

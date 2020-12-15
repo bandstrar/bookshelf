@@ -12,7 +12,7 @@ class UpdateBookForm extends Component {
     shelfId: this.props.userBook?.shelfId || '',
     userId: this.props.userBook?.userId || '',
     bookId: this.props.userBook?.bookId || '',
-    tags: null,
+    tags: '',
   }
 
   componentDidMount() {
@@ -31,23 +31,9 @@ class UpdateBookForm extends Component {
   updateBookInfo = (bookId) => {
     const userId = authData.getUid();
     bookData.getSingleBook(bookId).then((response) => {
-      if (response.avgRating === undefined && this.state.tags === null) {
+      if (response.avgRating === undefined && this.state.tags === '') {
         const avgRatingArray = [{ userId, rating: this.state.rating }];
 
-        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray })
-          .then(() => {
-            this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
-          });
-      } else if (this.state.tags === null) {
-        const avgRatingArray = response.avgRating;
-
-        const checkUserRating = avgRatingArray.filter((name) => name.userId === userId);
-        if (checkUserRating.length === 0) {
-          avgRatingArray.push({ userId, rating: this.state.rating });
-        } else {
-          const userIndex = avgRatingArray.findIndex(checkUserRating);
-          avgRatingArray.splice(userIndex, 1, { userId, rating: this.state.rating });
-        }
         bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray })
           .then(() => {
             this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
@@ -58,6 +44,20 @@ class UpdateBookForm extends Component {
         tagArray.push(this.state.tags.toLowerCase());
 
         bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray, tags: tagArray })
+          .then(() => {
+            this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
+          });
+      } else if (this.state.tags === '') {
+        const avgRatingArray = response.avgRating;
+
+        const checkUserRating = avgRatingArray.filter((name) => name.userId === userId);
+        if (checkUserRating.length === 0) {
+          avgRatingArray.push({ userId, rating: this.state.rating });
+        } else {
+          const userIndex = avgRatingArray.findIndex((rating) => rating.userId === checkUserRating[0].userId);
+          avgRatingArray.splice(userIndex, 1, { userId, rating: this.state.rating });
+        }
+        bookData.updateBook({ fbKey: this.state.bookId, avgRating: avgRatingArray })
           .then(() => {
             this.props.onUpdate(this.props.userBook.userId, this.props.userBook.bookId);
           });
@@ -146,7 +146,7 @@ class UpdateBookForm extends Component {
                             <Ratings.Widget />
                             </Ratings>
                 <ShelfSelect onChange={this.handleChange}/>
-                <button onClick={this.handleSubmit}>Submit</button>
+                <button className='btn btn-dark bookshelves-buttons' onClick={this.handleSubmit}>Submit</button>
           </form>
      );
    }

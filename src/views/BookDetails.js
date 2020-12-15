@@ -52,11 +52,13 @@ class BookDetails extends Component {
       <AppModal modalTitle={'Update Your Book'} buttonLabel={'Update Your Book'}>
         {Object.keys(userBook).length && <UpdateBookForm book={book} userBook={userBook} onUpdate={this.getBook} />}
       </AppModal>
-      <div className='single-book-view'>
-        <img className='book-detail-image' src={book.image} alt={book.name} />
+      <div className='single-book-view shelf-background-image'>
+        <div className='d-flex column-wrap justify-content-between single-book-container'>
+        <img className='book-detail-image book-container' src={book.image} alt={book.name} />
+        <div className='w-50 book-details-info'>
         <p className='book-details-name'>{book.name}</p>
         <p className='book-details-author'>{book.author}</p>
-        <p className='book-details-date'>{book.date}</p>
+        <p className='book-details-date'>Publication Date: {book.date}</p>
         <p className='book-details-rating'>Your Rating: <StarRatings
         rating={userBook.rating}
         numberOfStars={5}
@@ -64,11 +66,13 @@ class BookDetails extends Component {
         name='rating'
         starDimension="25px"
         starSpacing="5px" /></p>
-        <p className='book-details-avg-rating'>Average Rating: {book.avgRating !== undefined
-        && (Object.values(book.avgRating.map((rating) => rating.rating !== 0 && Number(rating.rating)))).reduce((a, b) => a + b, 0) / book.avgRating.length}</p>
+        <div className='book-details-avg-rating'>Average Rating: {book.avgRating !== undefined
+        && (Object.values(book.avgRating.map((rating) => rating.rating !== 0 && Number(rating.rating)))).reduce((a, b) => a + b, 0) / book.avgRating.length}</div>
         <p className='book-details-pages'>{book.pages} Pages</p>
         <p className='book-details-tags'>Tags: {book.tags.join(', ')}</p>
         <p className='book-details-notes'>Notes: {userBook.notes}</p>
+        </div>
+        </div>
       </div>
       </>
       )

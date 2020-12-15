@@ -24,7 +24,7 @@ class ShelfSelect extends Component {
      const { shelves } = this.state;
      const { onChange } = this.props;
      const mapShelves = () => (
-       shelves.map((shelf) => <option value={shelf.firebaseKey}>{shelf.name}</option>)
+       shelves.map((shelf) => <option key={shelf.firebaseKey} value={shelf.firebaseKey}>{shelf.name}</option>)
      );
      return (
       <div className='shelf-select-container m-2'>

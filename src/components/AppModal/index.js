@@ -19,7 +19,7 @@ const AppModal = (props) => {
 
   return (
     <div className="m-2">
-      <Button className='modal-add' onClick={toggle}>{buttonLabel}</Button>
+      <Button className='modal-add bookshelves-buttons' onClick={toggle}>{buttonLabel}</Button>
       <Modal isOpen={modal} toggle={toggle} className={className}>
         <ModalHeader toggle={toggle} className='modal-header'>{modalTitle}</ModalHeader>
         <ModalBody className='modal-body'>

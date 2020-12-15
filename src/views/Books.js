@@ -14,6 +14,10 @@ class Books extends Component {
     }
 
     componentDidMount() {
+      this.showAllBooks();
+    }
+
+    showAllBooks = () => {
       this.getBooks()
         .then((resp) => (
           this.setState({ books: resp }, this.setLoading)
@@ -110,15 +114,16 @@ class Books extends Component {
           <Loader />
             ) : (
             <>
-                <h2>My Books</h2>
+                <h2 className='text-container'>My Books</h2>
                 <div className="d-flex flex-wrap justify-content-between">
-                <button className='btn btn-dark' onClick={this.getRandomBook}>Random</button>
+                <button className='btn btn-dark m-2 bookshelves-buttons' onClick={this.getRandomBook}>Random</button>
+                <button className='btn btn-secondary m-2 bookshelves-buttons' onClick={this.showAllBooks}>Show All</button>
                 <form onSubmit={this.handleSubmit}>
-                <input type='text' name='text' value={text} onChange={this.handleChange}
+                <input className='collection-search-form m-2' type='text' name='text' value={text} onChange={this.handleChange}
                 placeholder='Enter a Title, Author, or Tag' />
                 </form>
                 </div>
-                <div className='carousel-background-image'>
+                <div className='shelf-background-image'>
                 {books.length !== 0 && <CardCarousel cards={showBooks()} />}
                 </div>
             </>
