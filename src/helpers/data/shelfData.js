@@ -1,4 +1,5 @@
 import axios from 'axios';
+import bookData from './bookData';
 
 const baseUrl = 'https://bookshelves-ce7f4-default-rtdb.firebaseio.com/';
 
@@ -28,6 +29,23 @@ const createShelf = (data) => new Promise((resolve, reject) => {
     }).catch((error) => reject(error));
 });
 
+const getUnreadShelf = (uid) => new Promise((resolve, reject) => {
+  getAllUserShelves(uid).then((response) => {
+    const unreadShelf = response.filter((shelf) => shelf.name === 'Unread');
+    bookData.getShelfBooks(unreadShelf[0].firebaseKey).then((re) => {
+      resolve(re);
+    });
+  }).catch((error) => reject(error));
+});
+
+// const getRandomUnread = (uid) => new Promise((resolve, reject) => {
+//   getUnreadShelf(uid).then((response) => {
+//     bookData.getShelfBooks(response.firebaseKey).then((re) => {
+//       resolve(re);
+//     });
+//   }).catch((error) => reject(error));
+// });
+
 const deleteShelf = (shelfId) => axios.delete(`${baseUrl}/shelves/${shelfId}.json`);
 
 const deleteShelfBooks = (firebaseKey) => axios.delete(`${baseUrl}/shelf-books/${firebaseKey}.json`);
@@ -39,5 +57,5 @@ const updateShelf = (data) => new Promise((resolve, reject) => {
 });
 
 export default {
-  getAllUserShelves, createShelf, updateShelf, getSingleShelf, deleteShelf, deleteShelfBooks,
+  getAllUserShelves, createShelf, updateShelf, getSingleShelf, deleteShelf, deleteShelfBooks, getUnreadShelf,
 };

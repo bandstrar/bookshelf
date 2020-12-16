@@ -16,6 +16,8 @@ class SingleShelf extends Component {
   componentDidMount() {
     const shelfId = this.props.match.params.id;
     this.getShelfInfo(shelfId);
+
+    console.warn(this.getBooks(shelfId));
     this.getBooks(shelfId)
       .then((response) => (
         this.setState({ books: response }, this.setLoading)
@@ -121,7 +123,7 @@ class SingleShelf extends Component {
       <div>
       <h1 className='text-container'>{shelf.name}</h1>
       <div className="d-flex flex-wrap justify-content-between">
-      <button className='btn btn-dark m-2 bookshelves-buttons' onClick={this.getRandomBook}>Random</button>
+      <button className='btn btn-dark m-2 bookshelves-buttons' onClick={() => this.getRandomBook(shelf.firebaseKey)}>Random</button>
       <button className='btn btn-secondary m-2 bookshelves-buttons' onClick={this.showAllBooks}>Show All</button>
       <form onSubmit={this.handleSubmit}>
         <input className='collection-search-form m-2' type='text' name='text' value={text} onChange={this.handleChange}

@@ -2,32 +2,37 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import shelfData from '../../helpers/data/shelfData';
 import authData from '../../helpers/data/authData';
-import ShelfCard from '../Cards/ShelfCard';
+import BookCard from '../Cards/BookCard';
 import Loader from '../Loader';
+import bookData from '../../helpers/data/bookData';
 
 class HomeComponent extends Component {
   state = {
-    shelves: [],
+    books: [],
     loading: true,
   }
 
   componentDidMount() {
-    this.getShelves();
+    this.getRandomUnreadBooks()
+      .then((response) => {
+        this.setState({ books: response }, this.setLoading);
+      });
   }
 
-   getShelves = () => {
-     const currentUserId = authData.getUid();
-     shelfData.getAllUserShelves(currentUserId).then((response) => {
-       this.setState({
-         shelves: response,
-       }, this.setLoading);
-     });
-   }
+  getRandomUnreadBooks = () => {
+    shelfData.getUnreadShelf(authData.getUid()).then((response) => {
+      const bookArray = [];
+      response.forEach((book) => {
+        bookArray.push(bookData.getSingleBook(book.bookId));
+      });
+      return Promise.all([...bookArray]);
+    });
+  };
 
    setLoading = () => {
      this.timer = setInterval(() => {
        this.setState({ loading: false });
-     }, 500);
+     }, 1000);
    }
 
    componentWillUnmount() {
@@ -35,9 +40,9 @@ class HomeComponent extends Component {
    }
 
    render() {
-     const { shelves, loading } = this.state;
+     const { books, loading } = this.state;
      const showHome = () => (
-       shelves.map((shelf) => shelf.name === 'Unread' && <ShelfCard key={shelf.firebaseKey} shelf={shelf} />)
+       books.map((book) => <BookCard key={book.fbKey} book={book} />)
      );
      return (
        <>
@@ -51,9 +56,9 @@ class HomeComponent extends Component {
         <div className='d-flex flex-wrap justify-content-center container'>{showHome()}</div>
         </>
           : <>
-          <h1>Start Adding Books to Your Shelves!</h1>
+          <h1 className='text-container'>Start Adding Books to Your Shelves!</h1>
           <div className='d-flex flex-wrap justify-content-center container'>
-          <Link className='btn btn-primary bookshelves-buttons' to={'/search'}>
+          <Link className='btn btn-secondary m-2 bookshelves-buttons' to={'/search'}>
             Search for a Book
             </Link>
         </div>
