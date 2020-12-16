@@ -32,19 +32,17 @@ const createShelf = (data) => new Promise((resolve, reject) => {
 const getUnreadShelf = (uid) => new Promise((resolve, reject) => {
   getAllUserShelves(uid).then((response) => {
     const unreadShelf = response.filter((shelf) => shelf.name === 'Unread');
-    bookData.getShelfBooks(unreadShelf[0].firebaseKey).then((re) => {
-      resolve(re);
-    });
+    resolve(unreadShelf[0]);
   }).catch((error) => reject(error));
 });
 
-// const getRandomUnread = (uid) => new Promise((resolve, reject) => {
-//   getUnreadShelf(uid).then((response) => {
-//     bookData.getShelfBooks(response.firebaseKey).then((re) => {
-//       resolve(re);
-//     });
-//   }).catch((error) => reject(error));
-// });
+const getRandomUnread = (uid) => new Promise((resolve, reject) => {
+  getUnreadShelf(uid).then((response) => {
+    bookData.getShelfBooks(response.firebaseKey).then((re) => {
+      resolve(re);
+    }).catch((error) => reject(error));
+  });
+});
 
 const deleteShelf = (shelfId) => axios.delete(`${baseUrl}/shelves/${shelfId}.json`);
 
@@ -57,5 +55,5 @@ const updateShelf = (data) => new Promise((resolve, reject) => {
 });
 
 export default {
-  getAllUserShelves, createShelf, updateShelf, getSingleShelf, deleteShelf, deleteShelfBooks, getUnreadShelf,
+  getAllUserShelves, createShelf, updateShelf, getSingleShelf, deleteShelf, deleteShelfBooks, getRandomUnread,
 };

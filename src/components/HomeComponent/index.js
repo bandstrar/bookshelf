@@ -20,7 +20,7 @@ class HomeComponent extends Component {
   }
 
   getRandomUnreadBooks = () => {
-    shelfData.getUnreadShelf(authData.getUid()).then((response) => {
+    shelfData.getRandomUnread(authData.getUid()).then((response) => {
       const bookArray = [];
       response.forEach((book) => {
         bookArray.push(bookData.getSingleBook(book.bookId));
