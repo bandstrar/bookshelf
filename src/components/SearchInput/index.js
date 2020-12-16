@@ -28,7 +28,7 @@ class SearchInput extends Component {
        image: thisBook[0].volumeInfo.imageLinks.thumbnail,
        name: thisBook[0].volumeInfo.title,
        pages: thisBook[0].volumeInfo.pageCount,
-       tags: [thisBook[0].volumeInfo.categories[0].toLowerCase()],
+       tags: [thisBook[0].volumeInfo.categories !== undefined ? thisBook[0].volumeInfo.categories[0].toLowerCase() : thisBook[0].volumeInfo.title.toLowerCase()],
      };
      bookData.getAllBooks()
        .then((response) => {

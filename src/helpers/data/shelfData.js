@@ -55,5 +55,5 @@ const updateShelf = (data) => new Promise((resolve, reject) => {
 });
 
 export default {
-  getAllUserShelves, createShelf, updateShelf, getSingleShelf, deleteShelf, deleteShelfBooks, getRandomUnread,
+  getAllUserShelves, createShelf, updateShelf, getSingleShelf, deleteShelf, deleteShelfBooks, getRandomUnread, getUnreadShelf,
 };

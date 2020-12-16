@@ -43,6 +43,8 @@ class BookDetails extends Component {
 
    render() {
      const { book, userBook, loading } = this.state;
+     const averageRating = book.avgRating !== undefined
+     && (Object.values(book.avgRating.map((rating) => rating.rating !== 0 && Number(rating.rating)))).reduce((a, b) => a + b, 0) / book.avgRating.length;
      return (
       <>
       { loading ? (
@@ -66,8 +68,7 @@ class BookDetails extends Component {
         name='rating'
         starDimension="25px"
         starSpacing="5px" /></p>
-        <div className='book-details-avg-rating'>Average Rating: {book.avgRating !== undefined
-        && (Object.values(book.avgRating.map((rating) => rating.rating !== 0 && Number(rating.rating)))).reduce((a, b) => a + b, 0) / book.avgRating.length}</div>
+        <div className='book-details-avg-rating'>Average Rating: {averageRating !== 0 && averageRating}</div>
         <p className='book-details-pages'>{book.pages} Pages</p>
         <p className='book-details-tags'>Tags: {book.tags.join(', ')}</p>
         <p className='book-details-notes'>Notes: {userBook.notes}</p>
