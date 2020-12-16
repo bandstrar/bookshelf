@@ -16,6 +16,7 @@ class SingleShelf extends Component {
   componentDidMount() {
     const shelfId = this.props.match.params.id;
     this.getShelfInfo(shelfId);
+
     this.getBooks(shelfId)
       .then((response) => (
         this.setState({ books: response }, this.setLoading)
@@ -84,7 +85,8 @@ class SingleShelf extends Component {
    )
 
    removeBook = (e) => {
-     const removedBook = this.state.books.filter((book) => book.fbKey !== e.target.id);
+     const noNulls = this.state.books.filter((book) => book !== null);
+     const removedBook = noNulls.filter((book) => book.fbKey !== e.target.id);
 
      this.setState({
        books: removedBook,
@@ -118,20 +120,22 @@ class SingleShelf extends Component {
       { loading ? (
     <Loader />
       ) : (
-      <div>
-      <h1 className='text-container'>{shelf.name}</h1>
-      <div className="d-flex flex-wrap justify-content-between">
-      <button className='btn btn-dark m-2 bookshelves-buttons' onClick={this.getRandomBook}>Random</button>
+      <>
+      <div className="d-flex flex-wrap text-container">
+      <div className="justify-content-start">
+      <button className='btn btn-dark m-2 bookshelves-buttons' onClick={() => this.getRandomBook(shelf.firebaseKey)}>Random</button>
       <button className='btn btn-secondary m-2 bookshelves-buttons' onClick={this.showAllBooks}>Show All</button>
+      </div>
+      <h1 className='m-auto'>{shelf.name}</h1>
       <form onSubmit={this.handleSubmit}>
         <input className='collection-search-form m-2' type='text' name='text' value={text} onChange={this.handleChange}
         placeholder='Enter a Title, Author, or Tag' />
       </form>
       </div>
-      <div className='shelf-background-image'>
+      <div className='shelf-background-image mt-5'>
       <CardCarousel cards={showBooks()} />
       </div>
-      </div>
+      </>
       )}
      </>
      );
