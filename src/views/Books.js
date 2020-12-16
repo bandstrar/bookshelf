@@ -72,7 +72,8 @@ class Books extends Component {
      )
 
      removeBook = (e) => {
-       const removedBook = this.state.books.filter((book) => book.fbKey !== e.target.id);
+       const noNulls = this.state.books.filter((book) => book !== null);
+       const removedBook = noNulls.filter((book) => book.fbKey !== e.target.id);
 
        this.setState({
          books: removedBook,
@@ -114,16 +115,18 @@ class Books extends Component {
           <Loader />
             ) : (
             <>
-                <h2 className='text-container'>My Books</h2>
-                <div className="d-flex flex-wrap justify-content-between">
+                <div className="d-flex flex-wrap text-container">
+                <div className="justify-content-start">
                 <button className='btn btn-dark m-2 bookshelves-buttons' onClick={this.getRandomBook}>Random</button>
                 <button className='btn btn-secondary m-2 bookshelves-buttons' onClick={this.showAllBooks}>Show All</button>
+                </div>
+                <h2 className="m-auto">My Books</h2>
                 <form onSubmit={this.handleSubmit}>
                 <input className='collection-search-form m-2' type='text' name='text' value={text} onChange={this.handleChange}
                 placeholder='Enter a Title, Author, or Tag' />
                 </form>
                 </div>
-                <div className='shelf-background-image'>
+                <div className='shelf-background-image mt-5'>
                 {books.length !== 0 && <CardCarousel cards={showBooks()} />}
                 </div>
             </>
