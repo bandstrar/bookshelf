@@ -10,7 +10,6 @@ class Auth extends Component {
     firebase.auth().signInWithPopup(provider)
       .then(() => {
         const userData = firebase.auth().currentUser;
-        console.warn(userData);
         if (userData.metadata.creationTime === userData.metadata.lastSignInTime) {
           shelfData.createShelf({ name: 'Unread', userId: userData.uid, image: '' });
           shelfData.createShelf({ name: 'Favorites', userId: userData.uid, image: '' });
