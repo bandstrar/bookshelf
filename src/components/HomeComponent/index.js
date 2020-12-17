@@ -23,14 +23,14 @@ class HomeComponent extends Component {
     this.getRandomUnreadBooks()
       .then((response) => {
         const randomBooks = [];
-        response.forEach((book) => {
+        response.forEach(() => {
           const randomBookIndex = Math.floor(Math.random() * Math.floor(response.length));
-          if (!randomBooks.includes(book) && randomBooks.length < 3) { randomBooks.push(response[randomBookIndex]); }
+          if (!randomBooks.includes(response[randomBookIndex]) && randomBooks.length < 3) { randomBooks.push(response[randomBookIndex]); }
         });
 
         this.setState({ books: randomBooks }, this.setLoading);
       });
-  }
+  };
 
   getShelfData = () => {
     shelfData.getUnreadShelf(authData.getUid()).then((response) => {

@@ -24,7 +24,7 @@ class CardCarousel extends Component {
     };
     return (
       <Carousel
-  swipeable={false}
+  swipeable={true}
   draggable={false}
   showDots={true}
   responsive={responsive}
