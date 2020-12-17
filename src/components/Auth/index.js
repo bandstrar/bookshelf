@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import shelfData from '../../helpers/data/shelfData';
 
 class Auth extends Component {
   loginClickEvent = (e) => {
     e.preventDefault();
     const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider);
+    firebase.auth().signInWithPopup(provider)
+      .then(() => {
+        const userData = firebase.auth().currentUser;
+        console.warn(userData);
+        if (userData.metadata.creationTime === userData.metadata.lastSignInTime) {
+          shelfData.createShelf({ name: 'Unread', userId: userData.uid, image: '' });
+          shelfData.createShelf({ name: 'Favorites', userId: userData.uid, image: '' });
+        }
+      });
   }
 
   render() {
