@@ -48,7 +48,7 @@ class SingleShelf extends Component {
     bookData.getShelfBooks(this.state.shelf.firebaseKey).then((res) => {
       const searchedBookArray = [];
       res.forEach((item) => {
-        searchedBookArray.push(bookData.searchBooks(this.state.text, item.bookId));
+        searchedBookArray.push(bookData.searchBooks(this.state.text.toLowerCase(), item.bookId));
       });
       return Promise.all([...searchedBookArray]);
     })

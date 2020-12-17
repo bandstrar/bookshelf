@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import getUid from '../helpers/data/authData';
 import bookData from '../helpers/data/bookData';
 import shelfData from '../helpers/data/shelfData';
 import CardCarousel from '../components/Carousel';
 import Loader from '../components/Loader';
 import BookCard from '../components/Cards/BookCard';
+import AppModal from '../components/AppModal';
+import SearchForm from '../components/Forms/SearchForm';
 
 class Books extends Component {
     state = {
@@ -33,6 +34,15 @@ class Books extends Component {
         });
     }
 
+    handleAdvanced = (e, data) => {
+      e.preventDefault();
+
+      this.advancedSearch(data)
+        .then((response) => {
+          this.setState({ books: response, loading: true }, this.setLoading);
+        });
+    }
+
     handleChange = (e) => {
       this.setState({
         [e.target.name]: e.target.value,
@@ -40,17 +50,27 @@ class Books extends Component {
     }
 
     getSearchedBooks = () => (
-      bookData.getAllUserBooks(getUid.getUid()).then((res) => {
+      bookData.getAllUserBooks(this.props.user.uid).then((res) => {
         const searchedBookArray = [];
         res.forEach((item) => {
-          searchedBookArray.push(bookData.searchBooks(this.state.text, item.bookId));
+          searchedBookArray.push(bookData.searchBooks(this.state.text.toLowerCase(), item.bookId));
+        });
+        return Promise.all([...searchedBookArray]);
+      })
+    )
+
+    advancedSearch = (data) => (
+      bookData.getAllUserBooks(this.props.user.uid).then((response) => {
+        const searchedBookArray = [];
+        response.forEach((item) => {
+          searchedBookArray.push(bookData.advancedSearch(data, item.bookId));
         });
         return Promise.all([...searchedBookArray]);
       })
     )
 
      getBooks = () => (
-       bookData.getAllUserBooks(getUid.getUid()).then((response) => {
+       bookData.getAllUserBooks(this.props.user.uid).then((response) => {
          const bookArray = [];
          response.forEach((userBook) => {
            bookArray.push(bookData.getSingleBook(userBook.bookId));
@@ -60,7 +80,7 @@ class Books extends Component {
      )
 
      getRandomBook = () => (
-       bookData.getAllUserBooks(getUid.getUid()).then((response) => {
+       bookData.getAllUserBooks(this.props.user.uid).then((response) => {
          const randomBook = Math.floor(Math.random() * Math.floor(response.length));
          bookData.getSingleBook(response[randomBook].bookId)
            .then((resp) => {
@@ -85,7 +105,7 @@ class Books extends Component {
              shelfData.deleteShelfBooks(book.firebaseKey);
            });
          });
-       bookData.getSingleUserBook(getUid.getUid(), e.target.id)
+       bookData.getSingleUserBook(this.props.user.uid, e.target.id)
          .then((response) => {
            bookData.deleteUserBook(response.firebaseKey)
              .then(() => {
@@ -121,6 +141,9 @@ class Books extends Component {
                 <button className='btn btn-secondary m-2 bookshelves-buttons' onClick={this.showAllBooks}>Show All</button>
                 </div>
                 <h2 className="m-auto">My Books</h2>
+                <AppModal modalTitle={'Advanced Search'} buttonLabel={'Advanced Search'}>
+                  <SearchForm handleAdvanced={this.handleAdvanced}/>
+                </AppModal>
                 <form onSubmit={this.handleSubmit}>
                 <input className='collection-search-form m-2' type='text' name='text' value={text} onChange={this.handleChange}
                 placeholder='Enter a Title, Author, or Tag' />
