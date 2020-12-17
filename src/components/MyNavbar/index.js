@@ -34,49 +34,54 @@ class MyNavbar extends Component {
     const { user } = this.props;
 
     return (
-    <div>
-      <Navbar dark expand='md' className='navbar justify-content-between'>
-        <Link className="navbar-brand" to='/'>Home</Link>
-        <NavbarToggler onClick={this.toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav className='mr-auto' navbar>
-            <NavItem>
-              <Link className="nav-link" to='/shelves'>Shelves</Link>
-            </NavItem>
-            <NavItem>
-              <Link className="nav-link" to='/books'>
-                Books
-              </Link>
-            </NavItem>
-            <NavItem>
-              <Link className="nav-link" to='/search'>
-                Search
-              </Link>
-            </NavItem>
-          </Nav>
-          {
-            user
-            && <>
-              <h4 className="text-white">{user?.displayName}</h4>
-              <UncontrolledDropdown>
-              <DropdownToggle className="text-white" nav caret>
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>
-                  <div
-                    className='nav-link btn btn-danger'
-                    onClick={(e) => this.logMeOut(e)}
-                  >
-                    Logout
-                  </div>
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-            </>
-          }
-        </Collapse>
-      </Navbar>
-    </div>
+      <>
+      {user
+        && (
+        <div>
+        <Navbar dark expand='md' className='navbar justify-content-between'>
+          <Link className="navbar-brand" to='/'>Home</Link>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={isOpen} navbar>
+            <Nav className='mr-auto' navbar>
+              <NavItem>
+                <Link className="nav-link" to='/shelves'>Shelves</Link>
+              </NavItem>
+              <NavItem>
+                <Link className="nav-link" to='/books'>
+                  Books
+                </Link>
+              </NavItem>
+              <NavItem>
+                <Link className="nav-link" to='/search'>
+                  Search
+                </Link>
+              </NavItem>
+            </Nav>
+            {
+              user
+              && <>
+                <h4 className="text-white">{user?.displayName}</h4>
+                <UncontrolledDropdown>
+                <DropdownToggle className="text-white" nav caret>
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                    <div
+                      className='nav-link btn btn-danger'
+                      onClick={(e) => this.logMeOut(e)}
+                    >
+                      Logout
+                    </div>
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+              </>
+            }
+          </Collapse>
+        </Navbar>
+      </div>
+        )}
+        </>
     );
   }
 }

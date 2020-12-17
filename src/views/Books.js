@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import getUid from '../helpers/data/authData';
+import authData from '../helpers/data/authData';
 import bookData from '../helpers/data/bookData';
 import shelfData from '../helpers/data/shelfData';
 import CardCarousel from '../components/Carousel';
 import Loader from '../components/Loader';
 import BookCard from '../components/Cards/BookCard';
+import AppModal from '../components/AppModal';
+import SearchForm from '../components/Forms/SearchForm';
 
 class Books extends Component {
     state = {
@@ -33,6 +35,15 @@ class Books extends Component {
         });
     }
 
+    handleAdvanced = (e, data) => {
+      e.preventDefault();
+
+      this.advancedSearch(data)
+        .then((response) => {
+          this.setState({ books: response, loading: true }, this.setLoading);
+        });
+    }
+
     handleChange = (e) => {
       this.setState({
         [e.target.name]: e.target.value,
@@ -40,17 +51,27 @@ class Books extends Component {
     }
 
     getSearchedBooks = () => (
-      bookData.getAllUserBooks(getUid.getUid()).then((res) => {
+      bookData.getAllUserBooks(authData.getUid()).then((res) => {
         const searchedBookArray = [];
         res.forEach((item) => {
-          searchedBookArray.push(bookData.searchBooks(this.state.text, item.bookId));
+          searchedBookArray.push(bookData.searchBooks(this.state.text.toLowerCase(), item.bookId));
+        });
+        return Promise.all([...searchedBookArray]);
+      })
+    )
+
+    advancedSearch = (data) => (
+      bookData.getAllUserBooks(authData.getUid()).then((response) => {
+        const searchedBookArray = [];
+        response.forEach((item) => {
+          searchedBookArray.push(bookData.advancedSearch(data, item.bookId));
         });
         return Promise.all([...searchedBookArray]);
       })
     )
 
      getBooks = () => (
-       bookData.getAllUserBooks(getUid.getUid()).then((response) => {
+       bookData.getAllUserBooks(authData.getUid()).then((response) => {
          const bookArray = [];
          response.forEach((userBook) => {
            bookArray.push(bookData.getSingleBook(userBook.bookId));
@@ -60,7 +81,7 @@ class Books extends Component {
      )
 
      getRandomBook = () => (
-       bookData.getAllUserBooks(getUid.getUid()).then((response) => {
+       bookData.getAllUserBooks(authData.getUid()).then((response) => {
          const randomBook = Math.floor(Math.random() * Math.floor(response.length));
          bookData.getSingleBook(response[randomBook].bookId)
            .then((resp) => {
@@ -85,7 +106,7 @@ class Books extends Component {
              shelfData.deleteShelfBooks(book.firebaseKey);
            });
          });
-       bookData.getSingleUserBook(getUid.getUid(), e.target.id)
+       bookData.getSingleUserBook(authData.getUid(), e.target.id)
          .then((response) => {
            bookData.deleteUserBook(response.firebaseKey)
              .then(() => {
@@ -121,10 +142,17 @@ class Books extends Component {
                 <button className='btn btn-secondary m-2 bookshelves-buttons' onClick={this.showAllBooks}>Show All</button>
                 </div>
                 <h2 className="m-auto">My Books</h2>
+                <div className='d-flex flex-wrap align-items-center'>
+                  Quick Search:
                 <form onSubmit={this.handleSubmit}>
                 <input className='collection-search-form m-2' type='text' name='text' value={text} onChange={this.handleChange}
                 placeholder='Enter a Title, Author, or Tag' />
                 </form>
+                or
+                <AppModal modalTitle={'Advanced Search'} buttonLabel={'Advanced Search'}>
+                  <SearchForm handleAdvanced={this.handleAdvanced}/>
+                </AppModal>
+                </div>
                 </div>
                 <div className='shelf-background-image mt-5'>
                 {books.length !== 0 && <CardCarousel cards={showBooks()} />}
