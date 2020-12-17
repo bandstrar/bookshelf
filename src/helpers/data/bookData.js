@@ -106,12 +106,35 @@ const searchBooks = (searchTerm, bookId) => new Promise((resolve, reject) => {
 const advancedSearch = (searchData, bookId) => new Promise((resolve, reject) => {
   getAllBooks()
     .then((response) => {
-      const searched = response.filter((book) => book.author.toLowerCase().includes(searchData.author.toLowerCase())
-    && Number(searchData.minPage) <= book.pages <= Number(searchData.maxPage)
-    && new Date(searchData.earliestDate) <= new Date(book.date) <= new Date(searchData.recentDate)
-    && book.tags.includes(searchData.tag.toLowerCase()));
-      const userSearched = searched.filter((userBook) => userBook.fbKey === bookId);
-      userSearched.length !== 0 ? resolve(userSearched[0]) : resolve(null);
+      if (searchData.author === '' && searchData.tag === '') {
+        const searched = response.filter((book) => (Number(searchData.minPage) <= book.pages && book.pages <= Number(searchData.maxPage))
+        && (new Date(searchData.earliestDate) <= new Date(book.date) && new Date(book.date) <= new Date(searchData.recentDate)));
+
+        const userSearched = searched.filter((userBook) => userBook.fbKey === bookId);
+        userSearched.length !== 0 ? resolve(userSearched[0]) : resolve(null);
+      } else if (searchData.author === '') {
+        const searched = response.filter((book) => book.tags.includes(searchData.tag.toLowerCase())
+        && (Number(searchData.minPage) <= book.pages && book.pages <= Number(searchData.maxPage))
+        && (new Date(searchData.earliestDate) <= new Date(book.date) && new Date(book.date) <= new Date(searchData.recentDate)));
+
+        const userSearched = searched.filter((userBook) => userBook.fbKey === bookId);
+        userSearched.length !== 0 ? resolve(userSearched[0]) : resolve(null);
+      } else if (searchData.tag === '') {
+        const searched = response.filter((book) => book.author.toLowerCase().includes(searchData.author.toLowerCase())
+        && (Number(searchData.minPage) <= book.pages && book.pages <= Number(searchData.maxPage))
+        && (new Date(searchData.earliestDate) <= new Date(book.date) && new Date(book.date) <= new Date(searchData.recentDate)));
+
+        const userSearched = searched.filter((userBook) => userBook.fbKey === bookId);
+        userSearched.length !== 0 ? resolve(userSearched[0]) : resolve(null);
+      } else {
+        const searched = response.filter((book) => book.author.toLowerCase().includes(searchData.author.toLowerCase())
+        && (Number(searchData.minPage) <= book.pages && book.pages <= Number(searchData.maxPage))
+        && (new Date(searchData.earliestDate) <= new Date(book.date) && new Date(book.date) <= new Date(searchData.recentDate))
+        && book.tags.includes(searchData.tag.toLowerCase()));
+
+        const userSearched = searched.filter((userBook) => userBook.fbKey === bookId);
+        userSearched.length !== 0 ? resolve(userSearched[0]) : resolve(null);
+      }
     }).catch((error) => reject(error));
 });
 
