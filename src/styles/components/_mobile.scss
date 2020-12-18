@@ -14,9 +14,10 @@
   [class*='book-detail-image'] {
     width: 40vw;
     margin: auto;
+    margin-top: 17vh;
   }
   [class*='card-close-container'] {
-    margin-right: 30px;
+    margin-right: 130px;
   }
   [class*='single-book-container'] {
     margin: auto;
@@ -35,5 +36,8 @@
   }
   [class*='header-h2'] {
     margin-left: 35vw;
+  }
+  [class*='carousel-books'] {
+    margin-top: 5vh;
   }
 }
