@@ -137,21 +137,21 @@ class Books extends Component {
             ) : (
             <>
                 <div className="d-flex flex-wrap text-container">
-                <div className="justify-content-start">
+                <div className="align-items-center header-buttons">
                 <button className='btn btn-dark m-2 bookshelves-buttons' onClick={this.getRandomBook}>Random</button>
                 <button className='btn btn-secondary m-2 bookshelves-buttons' onClick={this.showAllBooks}>Show All</button>
                 </div>
-                <h2 className="m-auto">My Books</h2>
+                <h2 className="header-h2">My Books</h2>
                 <div className='d-flex flex-wrap align-items-center'>
-                  Quick Search:
                 <form onSubmit={this.handleSubmit}>
-                <input className='collection-search-form m-2' type='text' name='text' value={text} onChange={this.handleChange}
-                placeholder='Enter a Title, Author, or Tag' />
+                <input className='collection-search-form' type='text' name='text' value={text} onChange={this.handleChange}
+                placeholder='Search Collection by Title, Author, or Tag' />
                 </form>
-                or
+                <div className='advanced-search-button'>
                 <AppModal modalTitle={'Advanced Search'} buttonLabel={'Advanced Search'}>
                   <SearchForm handleAdvanced={this.handleAdvanced}/>
                 </AppModal>
+                </div>
                 </div>
                 </div>
                 <div className='shelf-background-image mt-5'>
