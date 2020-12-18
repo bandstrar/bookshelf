@@ -4,7 +4,7 @@ BookShelves is an application that enables a user to track their personal book c
 
 ## Technologies
 
-React, SCSS, Firebase, Google Books API, Reactstrap
+React, SCSS, Firebase, Google Books API, Reactstrap, React-Multi-Carousel, React-Ratings-Declarative
 
 ## ERD
 
