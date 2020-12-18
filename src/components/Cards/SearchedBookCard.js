@@ -33,9 +33,9 @@ class SearchedBookCard extends Component {
           <CardTitle tag="h5">{book.volumeInfo.authors.join(', ')}</CardTitle>
           <CardTitle tag="h5">Publication Date: {book.volumeInfo.publishedDate}</CardTitle>
           {clicked ? (
-            <Button className='btn btn-secondary w-25 align-self-center' disabled id={book.id}>Book Added to Collection!</Button>
+            <Button className='btn btn-secondary w-50 align-self-center' disabled id={book.id}>Book Added to Collection!</Button>
           )
-            : <Button className='btn btn-success w-25 align-self-center' id={book.id} onClick={(e) => {
+            : <Button className='btn btn-success w-50 align-self-center' id={book.id} onClick={(e) => {
               addNewBook(e);
               this.deactivateButton();
             }}><i className="fas fa-plus-circle"></i>Add Book to Collection</Button>
