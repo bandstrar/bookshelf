@@ -1,0 +1,39 @@
+@media only screen and (max-width: 768px) {
+  [class*='collection-search-form'] {
+    width: 85vw;
+    border-radius: 5px;
+    border-style: none;
+    height: 5vh;
+    margin-left: 30px;
+  }
+  [class*='shelf-background-image'] {
+  background-color: white;
+  width: 90%;
+  margin: auto;
+  }
+  [class*='book-detail-image'] {
+    width: 40vw;
+    margin: auto;
+  }
+  [class*='card-close-container'] {
+    margin-right: 30px;
+  }
+  [class*='single-book-container'] {
+    margin: auto;
+  }
+  [class*='book-details-info'] {
+    font-size: 14px;
+  }
+  [class*='bookshelves-buttons'] {
+    margin: auto;
+  }
+  [class*='header-buttons'] {
+    margin: auto;
+  }
+  [class*='advanced-search-button'] {
+    margin: auto;
+  }
+  [class*='header-h2'] {
+    margin-left: 35vw;
+  }
+}

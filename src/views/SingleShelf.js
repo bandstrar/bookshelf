@@ -126,16 +126,15 @@ class SingleShelf extends Component {
       ) : (
       <>
       <div className="d-flex flex-wrap text-container">
-      <div className="justify-content-start">
+      <div className="align-items-center header-buttons">
       <button className='btn btn-dark m-2 bookshelves-buttons' onClick={() => this.getRandomBook(shelf.firebaseKey)}>Random</button>
       <button className='btn btn-secondary m-2 bookshelves-buttons' onClick={() => this.showShelfBooks(shelf.firebaseKey)}>Show All</button>
       </div>
-      <h1 className='m-auto'>{shelf.name}</h1>
+      <h1 className='header-h2'>{shelf.name}</h1>
       <div className='d-flex flex-wrap align-items-center'>
-      Quick Search:
       <form onSubmit={this.handleSubmit}>
-        <input className='collection-search-form m-2' type='text' name='text' value={text} onChange={this.handleChange}
-        placeholder='Enter a Title, Author, or Tag' />
+        <input className='collection-search-form' type='text' name='text' value={text} onChange={this.handleChange}
+        placeholder='Search This Shelf by Title, Author, or Tag' />
       </form>
       </div>
       </div>

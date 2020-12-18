@@ -77,7 +77,7 @@ class Shelves extends Component {
                 <ShelfForm onUpdate={this.getShelves} />
                 </AppModal>
                 </div>
-                <div className='d-flex flex-wrap justify-content-between container'>{showShelves()}</div>
+                <div className='d-flex flex-wrap justify-content-center shelves-container container'>{showShelves()}</div>
             </>
             )}
        </>

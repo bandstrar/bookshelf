@@ -3,6 +3,7 @@
   border-radius: 5px;
   border-style: none;
   height: 5vh;
+  margin: 5px;
 }
 
 .text-container {
@@ -25,16 +26,15 @@
 }
 
 .book-detail-image {
-  width: 25%;
-  margin-left: 75px;
+  width: 13em;
+  margin: auto;
+  margin-top: 17vh;
 }
 
 .book-details-info {
   font-size: 20px;
-}
-
-.single-book-container {
-  padding-top: 130px;
+  margin: auto;
+  margin-top: 10vh;
 }
 
 .search-container {
@@ -44,4 +44,11 @@
 .found-books {
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.header-h2 {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: auto;
+  margin-left: 35vw;
 }
